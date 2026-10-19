@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="SEDIMEX — Servicios Digitales Mexicanos. Diseñamos, desarrollamos e implementamos soluciones de software a la medida para su organización.">
+  <title>SEDIMEX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+  <style>
+  /* ================================================================
+     DESIGN PLAN
+     Layout : Left-aligned editorial, navy hero, alternating sections
+     Color  : --navy #0D2545 / --blue #1B4EC8 / --red #CC1620 / tints
+     Type   : Syne 800 display (authority) + DM Sans body (clarity)
+     Risk   : Mexican institutional gravity — no startup SaaS chrome
+     ================================================================ */
+
+  :root {
+    --navy:      #0D2545;
+    --blue:      #1B4EC8;
+    --red:       #CC1620;
+    --blue-soft: #7B96D8;
+
+    --bg:        #FFFFFF;
+    --fg:        #0A1A35;
+    --surface:   #F2F5FC;
+    --muted:     #4A6290;
+    --border:    #D0DBF0;
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:      #0B1929;
+      --fg:      #E4EDFF;
+      --surface: #111F36;
+      --muted:   #7B9AC5;
+      --border:  #1E3356;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:      #0B1929;
+    --fg:      #E4EDFF;
+    --surface: #111F36;
+    --muted:   #7B9AC5;
+    --border:  #1E3356;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === UTILITIES === */
+  .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left:  max(2.5rem, env(safe-area-inset-left,  0px));
+    padding-right: max(2.5rem, env(safe-area-inset-right, 0px));
+  }
+
+  /* === NAV === */
+  nav {
+    position: fixed;
+    top:   env(safe-area-inset-top, 0px);
+    left:  0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 1.125rem;
+    padding-left:  max(2.5rem, env(safe-area-inset-left,  0px));
+    padding-right: max(2.5rem, env(safe-area-inset-right, 0px));
+    background: rgba(13, 37, 69, 0.93);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.375rem;
+    letter-spacing: -0.025em;
+    color: #FFFFFF;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .logo-x { color: var(--red); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.25rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    transition: color 0.18s;
+  }
+  .nav-links a:hover,
+  .nav-links a:focus-visible { color: #FFFFFF; outline: none; }
+
+  /* === HERO === */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top:    8rem;
+    padding-bottom: 8rem;
+    padding-left:   max(4rem, env(safe-area-inset-left,  0px));
+    padding-right:  max(4rem, env(safe-area-inset-right, 0px));
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* dot grid */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  /* light bloom */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 65% 55% at 78% 22%, rgba(27,78,200,0.22) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 45% at 82% 75%, rgba(204,22,32,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 68rem;
+  }
+
+  .hero-headline {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.875rem, 3.25vw + 1rem, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin-bottom: 2rem;
+  }
+  .hero-headline .hl { display: block; }
+  .hero-headline .hl + .hl { margin-top: 0.35em; }
+
+  .hero-body {
+    font-size: clamp(1rem, 1.4vw, 1.125rem);
+    line-height: 1.7;
+    color: rgba(255,255,255,0.52);
+    max-width: 52ch;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    background: var(--red);
+    color: #FFFFFF;
+    padding: 0.875rem 2.125rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: background 0.18s, transform 0.14s;
+  }
+  .hero-cta:hover { background: #A80E17; transform: translateY(-1px); }
+  .hero-cta:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }
+
+  .hero-bar {
+    position: absolute;
+    bottom: 2.5rem;
+    left:   max(4rem, env(safe-area-inset-left,  0px));
+    right:  max(4rem, env(safe-area-inset-right, 0px));
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1.25rem;
+  }
+
+  .hero-bar-label {
+    font-size: 0.6875rem;
+    color: rgba(255,255,255,0.22);
+    letter-spacing: 0.05em;
+  }
+
+  .scroll-stem {
+    width: 1px;
+    height: 2.25rem;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
+  }
+
+  /* === INTRO: MISIÓN + VISIÓN === */
+  .intro {
+    background: var(--bg);
+    padding-block: 6.5rem;
+  }
+
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+
+  .intro-cell { display: flex; flex-direction: column; gap: 1rem; }
+
+  .intro-cell:last-child {
+    padding-left: 2.5rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .cell-type {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.06em;
+  }
+
+  .cell-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.375rem, 2.25vw, 1.875rem);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--fg);
+    text-wrap: balance;
+  }
+
+  .cell-body {
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 52ch;
+  }
+
+  /* === SERVICES === */
+  .services {
+    background: var(--surface);
+    padding-block: 6.5rem;
+  }
+
+  .services-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.875rem, 3.5vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    color: var(--fg);
+    text-wrap: balance;
+    margin-bottom: 3.5rem;
+  }
+
+  .services-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--border);
+  }
+
+  .svc {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    gap: 1.25rem;
+    padding-block: 2.25rem;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .svc:nth-child(odd)  { padding-right: 3rem; }
+  .svc:nth-child(even) { padding-left: 3rem; border-left: 1px solid var(--border); }
+
+  /* 5th service spans full row */
+  .svc:nth-child(5) {
+    grid-column: 1 / -1;
+    padding-left: 0;
+    padding-right: 0;
+    border-left: none;
+  }
+
+  .svc-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--blue);
+    padding-top: 0.3rem;
+    letter-spacing: 0.03em;
+  }
+
+  .svc-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.0625rem;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+
+  .svc-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* === PHILOSOPHY (always dark) === */
+  .philosophy {
+    background: var(--navy);
+    padding-block: 6.5rem;
+  }
+
+  .phil-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+
+  .phil-cell { display: flex; flex-direction: column; gap: 0.875rem; }
+
+  .phil-cell:last-child {
+    padding-left: 2.5rem;
+    border-left: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .phil-label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--blue-soft);
+    letter-spacing: 0.06em;
+  }
+
+  .phil-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: #FFFFFF;
+    text-wrap: balance;
+  }
+
+  .phil-body {
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.45);
+    max-width: 50ch;
+  }
+
+  /* === VALUES === */
+  .values {
+    background: var(--bg);
+    padding-block: 6.5rem;
+  }
+
+  .values-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.875rem, 3.5vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    color: var(--fg);
+    text-wrap: balance;
+    margin-bottom: 3.5rem;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border);
+  }
+
+  .val {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+    border-bottom: 1px solid var(--border);
+    padding-right: 2.25rem;
+  }
+  .val:nth-child(3n+2),
+  .val:nth-child(3n) {
+    padding-left: 2.25rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .val-mark {
+    width: 2rem;
+    height: 2px;
+    background: var(--red);
+    margin-bottom: 1.25rem;
+  }
+
+  .val-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.0625rem;
+    color: var(--fg);
+    letter-spacing: -0.015em;
+    margin-bottom: 0.5rem;
+  }
+
+  .val-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 32ch;
+  }
+
+  /* === CATALOG === */
+  .catalog {
+    background: var(--surface);
+    padding-block: 6.5rem;
+  }
+
+  .catalog-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.875rem, 3.5vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    color: var(--fg);
+    text-wrap: balance;
+    margin-bottom: 3rem;
+  }
+
+  .cat-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+
+  .cat-tab {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.875rem 1.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+    transition: color 0.18s;
+    margin-bottom: -1px;
+    flex-shrink: 0;
+  }
+  .cat-tab:hover { color: var(--fg); }
+  .cat-tab.active {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+  }
+  .cat-tab:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+
+  .cat-panel { display: none; }
+  .cat-panel.active { display: block; }
+
+  .cat-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    letter-spacing: 0.02em;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border);
+  }
+
+  .product {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 0.75rem;
+    padding: 1.25rem 1.25rem 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .product:nth-child(3n+2),
+  .product:nth-child(3n) {
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .product-n {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--blue);
+    padding-top: 0.2rem;
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .product-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  .cat-pending {
+    padding: 3.5rem 2rem;
+    border: 1px dashed var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  /* === CTA === */
+  .cta {
+    background: var(--blue);
+    padding-block: 5.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    right: -8%;
+    top: -40%;
+    width: 55%;
+    height: 180%;
+    background: rgba(255,255,255,0.04);
+    transform: skewX(-6deg);
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.75rem, 3.25vw, 2.75rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: #FFFFFF;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+
+  .cta-right {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.25rem;
+  }
+
+  .cta-sub {
+    font-size: 0.9375rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+    max-width: 40ch;
+    text-align: right;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: #FFFFFF;
+    color: var(--blue);
+    padding: 0.875rem 2rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.18s, transform 0.14s;
+  }
+  .cta-btn:hover { background: #E8EFFF; transform: translateY(-1px); }
+  .cta-btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }
+
+  .cta-email {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    user-select: all;
+    cursor: text;
+  }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-block: 2.5rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.025em;
+    color: #FFFFFF;
+    line-height: 1;
+  }
+
+  .footer-sub {
+    font-size: 0.6875rem;
+    color: rgba(255,255,255,0.28);
+    margin-top: 0.35rem;
+    letter-spacing: 0.04em;
+  }
+
+  .footer-copy {
+    font-size: 0.6875rem;
+    color: rgba(255,255,255,0.2);
+    text-align: right;
+    line-height: 1.65;
+  }
+
+  /* === ENTRY ANIMATION (hero only) === */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-headline { opacity: 0; transform: translateY(1.25rem); animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.15s forwards; }
+    .hero-body     { opacity: 0; transform: translateY(1.25rem); animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.28s forwards; }
+    .hero-cta      { opacity: 0; transform: translateY(1.25rem); animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.42s forwards; }
+  }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 880px) {
+    .intro-grid,
+    .phil-grid  { grid-template-columns: 1fr; gap: 3rem; }
+    .intro-cell:last-child { padding-left: 0; border-left: none; }
+    .phil-cell:last-child  { padding-left: 0; border-left: none; }
+
+    .services-list { grid-template-columns: 1fr; }
+    .svc:nth-child(odd)  { padding-right: 0; }
+    .svc:nth-child(even) { padding-left: 0; border-left: none; }
+    .svc:nth-child(5)    { grid-column: auto; }
+
+    .values-grid { grid-template-columns: 1fr 1fr; }
+    .val:nth-child(3n+2),
+    .val:nth-child(3n)    { padding-left: 0; border-left: none; }
+    .val:nth-child(even)  { padding-left: 2rem; border-left: 1px solid var(--border); }
+
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .product:nth-child(3n+2),
+    .product:nth-child(3n) { padding-left: 0; border-left: none; }
+    .product:nth-child(even) { padding-left: 1.25rem; border-left: 1px solid var(--border); }
+
+    .cta-inner { flex-direction: column; align-items: flex-start; }
+    .cta-right { align-items: flex-start; }
+    .cta-sub   { text-align: left; }
+  }
+
+  @media (max-width: 560px) {
+    nav {
+      padding-left:  max(1.25rem, env(safe-area-inset-left,  0px));
+      padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
+    }
+    .nav-links { display: none; }
+
+    .hero {
+      padding-left:  max(1.5rem, env(safe-area-inset-left,  0px));
+      padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+    }
+    .hero-bar {
+      left:  max(1.5rem, env(safe-area-inset-left,  0px));
+      right: max(1.5rem, env(safe-area-inset-right, 0px));
+    }
+
+    .inner {
+      padding-left:  max(1.25rem, env(safe-area-inset-left,  0px));
+      padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
+    }
+
+    .values-grid { grid-template-columns: 1fr; }
+    .val:nth-child(even) { padding-left: 0; border-left: none; }
+
+    .products-grid { grid-template-columns: 1fr; }
+    .product:nth-child(even) { padding-left: 0; border-left: none; }
+
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+    .footer-copy  { text-align: left; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo" aria-label="SEDIMEX inicio">SEDIME<span class="logo-x">X</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="#intro">Misión</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#valores">Valores</a></li>
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" aria-label="Presentación">
+  <div class="hero-content">
+    <h1 class="hero-headline"><span class="hl">Su empresa tiene<br>procesos únicos.</span><span class="hl">Su software también<br>debería serlo.</span></h1>
+    <p class="hero-body">Diseñamos, desarrollamos e implementamos soluciones tecnológicas construidas a partir de los requerimientos, procesos y objetivos específicos de cada organización.</p>
+    <a href="#servicios" class="hero-cta">Ver nuestros servicios</a>
+  </div>
+  <div class="hero-bar" aria-hidden="true">
+    <span class="hero-bar-label">Servicios Digitales Mexicanos — SEDIMEX</span>
+    <div class="scroll-stem"></div>
+  </div>
+</section>
+
+<!-- INTRO: MISIÓN + VISIÓN -->
+<section class="intro" id="intro">
+  <div class="inner">
+    <div class="intro-grid">
+      <div class="intro-cell">
+        <p class="cell-type">Misión</p>
+        <h2 class="cell-heading">Tecnología que responde a sus necesidades reales</h2>
+        <p class="cell-body">Diseñar, desarrollar e implementar soluciones de software a la medida, mediante el análisis de requerimientos y la aplicación de metodologías de desarrollo tecnológico, para atender las necesidades operativas de cada cliente y optimizar sus procesos.</p>
+      </div>
+      <div class="intro-cell">
+        <p class="cell-type">Visión</p>
+        <h2 class="cell-heading">Referente en desarrollo de software personalizado</h2>
+        <p class="cell-body">Consolidarnos como empresa especializada en soluciones a la medida, reconocida por calidad técnica, innovación, adaptabilidad y orientación al cliente, estableciendo relaciones comerciales sostenibles y contribuyendo a la transformación digital de las organizaciones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+  <div class="inner">
+    <h2 class="services-heading">Del análisis<br>al sistema en producción</h2>
+    <div class="services-list">
+      <div class="svc">
+        <span class="svc-num">01</span>
+        <div>
+          <p class="svc-name">Análisis de requerimientos</p>
+          <p class="svc-desc">Evaluamos sus procesos, flujos de información y necesidades operativas antes de escribir una sola línea de código.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <span class="svc-num">02</span>
+        <div>
+          <p class="svc-name">Desarrollo a la medida</p>
+          <p class="svc-desc">Diseñamos, programamos y probamos sistemas construidos desde cero para responder a sus objetivos específicos.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <span class="svc-num">03</span>
+        <div>
+          <p class="svc-name">Implementación</p>
+          <p class="svc-desc">Integramos las soluciones dentro de su infraestructura existente y verificamos su correcto funcionamiento desde el primer día.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <span class="svc-num">04</span>
+        <div>
+          <p class="svc-name">Soporte técnico</p>
+          <p class="svc-desc">Atendemos incidencias y realizamos ajustes necesarios durante los seis meses posteriores a cada entrega, sin costo adicional.</p>
+        </div>
+      </div>
+      <div class="svc">
+        <span class="svc-num">05</span>
+        <div>
+          <p class="svc-name">Mantenimiento y actualización</p>
+          <p class="svc-desc">Mantenemos sus sistemas en operación óptima y los actualizamos conforme evolucionan sus necesidades y procesos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy">
+  <div class="inner">
+    <div class="phil-grid">
+      <div class="phil-cell">
+        <p class="phil-label">Nuestro enfoque</p>
+        <h3 class="phil-heading">Software que ningún catálogo puede ofrecer</h3>
+        <p class="phil-body">Las soluciones estandarizadas están diseñadas para el promedio. SEDIMEX trabaja a partir del análisis de sus requerimientos para construir herramientas ajustadas a la realidad de su organización — no al revés.</p>
+      </div>
+      <div class="phil-cell">
+        <p class="phil-label">Compromisos medibles</p>
+        <h3 class="phil-heading">Del requerimiento al sistema, con seguimiento garantizado</h3>
+        <p class="phil-body">Analizamos el 100% de los requerimientos antes de iniciar, entregamos el 90% de los proyectos dentro de los tiempos acordados y damos seguimiento a todas las soluciones durante sus primeros seis meses de operación.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values" id="valores">
+  <div class="inner">
+    <h2 class="values-heading">Principios que guían<br>nuestro trabajo</h2>
+    <div class="values-grid">
+      <div class="val">
+        <div class="val-mark" aria-hidden="true"></div>
+        <p class="val-name">Innovación</p>
+        <p class="val-desc">Desarrollamos alternativas tecnológicas que atienden problemáticas y requerimientos específicos de cada cliente.</p>
+      </div>
+      <div class="val">
+        <div class="val-mark" aria-hidden="true"></div>
+        <p class="val-name">Calidad</p>
+        <p class="val-desc">Garantizamos que cada solución cumpla con los requerimientos funcionales y técnicos establecidos desde el inicio.</p>
+      </div>
+      <div class="val">
+        <div class="val-mark" aria-hidden="true"></div>
+        <p class="val-name">Responsabilidad</p>
+        <p class="val-desc">Cumplimos con los alcances, tiempos y compromisos definidos para cada proyecto, sin excepciones.</p>
+      </div>
+      <div class="val">
+        <div class="val-mark" aria-hidden="true"></div>
+        <p class="val-name">Confidencialidad</p>
+        <p class="val-desc">Protegemos la información, datos y documentación de nuestros clientes en todas las etapas del proyecto.</p>
+      </div>
+      <div class="val">
+        <div class="val-mark" aria-hidden="true"></div>
+        <p class="val-name">Trabajo colaborativo</p>
+        <p class="val-desc">Integramos conocimientos de todas las áreas para alcanzar los objetivos de cada proyecto de forma coordinada.</p>
+      </div>
+      <div class="val">
+        <div class="val-mark" aria-hidden="true"></div>
+        <p class="val-name">Adaptabilidad</p>
+        <p class="val-desc">Ajustamos las soluciones tecnológicas a las condiciones, procesos y necesidades de cada organización.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<section class="catalog" id="catalogo">
+  <div class="inner">
+    <h2 class="catalog-heading">Catálogo de soluciones</h2>
+    <div class="cat-tabs" role="tablist" aria-label="Categorías">
+      <button class="cat-tab active" role="tab" aria-selected="true"  aria-controls="cat-0" id="tab-0">Medio ambiente</button>
+      <button class="cat-tab"        role="tab" aria-selected="false" aria-controls="cat-1" id="tab-1">Salud y bienestar</button>
+      <button class="cat-tab"        role="tab" aria-selected="false" aria-controls="cat-2" id="tab-2">Hogar y seguridad</button>
+      <button class="cat-tab"        role="tab" aria-selected="false" aria-controls="cat-3" id="tab-3">Logística y transporte</button>
+      <button class="cat-tab"        role="tab" aria-selected="false" aria-controls="cat-4" id="tab-4">Administración y negocios</button>
+    </div>
+
+    <div class="cat-panel active" id="cat-0" role="tabpanel" aria-labelledby="tab-0">
+      <p class="cat-meta">15 soluciones · Medio ambiente y sustentabilidad</p>
+      <div class="products-grid">
+        <div class="product"><span class="product-n">01</span><span class="product-name">Sistema de monitoreo de agua</span></div>
+        <div class="product"><span class="product-n">02</span><span class="product-name">Monitor de consumo eléctrico</span></div>
+        <div class="product"><span class="product-n">03</span><span class="product-name">Sistema de separación inteligente</span></div>
+        <div class="product"><span class="product-n">04</span><span class="product-name">Monitor de calidad del aire</span></div>
+        <div class="product"><span class="product-n">05</span><span class="product-name">Plataforma de sustentabilidad</span></div>
+        <div class="product"><span class="product-n">06</span><span class="product-name">EcoTrack – Huella de carbono</span></div>
+        <div class="product"><span class="product-n">07</span><span class="product-name">Gestor inteligente de residuos</span></div>
+        <div class="product"><span class="product-n">08</span><span class="product-name">Sistema de iluminación inteligente</span></div>
+        <div class="product"><span class="product-n">09</span><span class="product-name">Monitor de consumo de gas</span></div>
+        <div class="product"><span class="product-n">10</span><span class="product-name">Calculadora de huella ecológica</span></div>
+        <div class="product"><span class="product-n">11</span><span class="product-name">Plataforma de reciclaje empresarial</span></div>
+        <div class="product"><span class="product-n">12</span><span class="product-name">EcoEnergy AI</span></div>
+        <div class="product"><span class="product-n">13</span><span class="product-name">Sistema de riego inteligente</span></div>
+        <div class="product"><span class="product-n">14</span><span class="product-name">Monitor de emisiones</span></div>
+        <div class="product"><span class="product-n">15</span><span class="product-name">Dashboard ambiental empresarial</span></div>
+      </div>
+    </div>
+
+    <div class="cat-panel" id="cat-1" role="tabpanel" aria-labelledby="tab-1">
+      <p class="cat-meta">15 soluciones · Salud y bienestar</p>
+      <div class="products-grid">
+        <div class="product"><span class="product-n">01</span><span class="product-name">NutriTrack</span></div>
+        <div class="product"><span class="product-n">02</span><span class="product-name">CoachFit</span></div>
+        <div class="product"><span class="product-n">03</span><span class="product-name">MedControl</span></div>
+        <div class="product"><span class="product-n">04</span><span class="product-name">WellMind</span></div>
+        <div class="product"><span class="product-n">05</span><span class="product-name">HealthBusiness</span></div>
+        <div class="product"><span class="product-n">06</span><span class="product-name">MedAgenda</span></div>
+        <div class="product"><span class="product-n">07</span><span class="product-name">Expediente Salud Digital</span></div>
+        <div class="product"><span class="product-n">08</span><span class="product-name">HealthReminder</span></div>
+        <div class="product"><span class="product-n">09</span><span class="product-name">TeleSalud</span></div>
+        <div class="product"><span class="product-n">10</span><span class="product-name">GymManager</span></div>
+        <div class="product"><span class="product-n">11</span><span class="product-name">Wellness Empresas</span></div>
+        <div class="product"><span class="product-n">12</span><span class="product-name">FitProgress AI</span></div>
+        <div class="product"><span class="product-n">13</span><span class="product-name">Control de citas médicas</span></div>
+        <div class="product"><span class="product-n">14</span><span class="product-name">Plataforma de evaluaciones físicas</span></div>
+        <div class="product"><span class="product-n">15</span><span class="product-name">Centro de bienestar integral</span></div>
+      </div>
+    </div>
+
+    <div class="cat-panel" id="cat-2" role="tabpanel" aria-labelledby="tab-2">
+      <p class="cat-meta">15 soluciones · Hogar y seguridad</p>
+      <div class="products-grid">
+        <div class="product"><span class="product-n">01</span><span class="product-name">Sistema de vigilancia inteligente</span></div>
+        <div class="product"><span class="product-n">02</span><span class="product-name">Monitor de seguridad laboral</span></div>
+        <div class="product"><span class="product-n">03</span><span class="product-name">Alarma inteligente</span></div>
+        <div class="product"><span class="product-n">04</span><span class="product-name">Sistema de alertas de emergencia</span></div>
+        <div class="product"><span class="product-n">05</span><span class="product-name">Centro de seguridad con IA</span></div>
+        <div class="product"><span class="product-n">06</span><span class="product-name">SmartLock</span></div>
+        <div class="product"><span class="product-n">07</span><span class="product-name">Control de acceso inteligente</span></div>
+        <div class="product"><span class="product-n">08</span><span class="product-name">Detector inteligente de humo</span></div>
+        <div class="product"><span class="product-n">09</span><span class="product-name">Monitor de personas mayores</span></div>
+        <div class="product"><span class="product-n">10</span><span class="product-name">Seguridad perimetral inteligente</span></div>
+        <div class="product"><span class="product-n">11</span><span class="product-name">SmartHome Manager</span></div>
+        <div class="product"><span class="product-n">12</span><span class="product-name">Detector de fugas de gas</span></div>
+        <div class="product"><span class="product-n">13</span><span class="product-name">Monitor de incendios</span></div>
+        <div class="product"><span class="product-n">14</span><span class="product-name">Control de visitantes</span></div>
+        <div class="product"><span class="product-n">15</span><span class="product-name">Security Analytics AI</span></div>
+      </div>
+    </div>
+
+    <div class="cat-panel" id="cat-3" role="tabpanel" aria-labelledby="tab-3">
+      <p class="cat-meta">15 soluciones · Logística y transporte</p>
+      <div class="products-grid">
+        <div class="product"><span class="product-n">01</span><span class="product-name">Sistema de rastreo vehicular</span></div>
+        <div class="product"><span class="product-n">02</span><span class="product-name">Control inteligente de combustible</span></div>
+        <div class="product"><span class="product-n">03</span><span class="product-name">Gestión de flotillas</span></div>
+        <div class="product"><span class="product-n">04</span><span class="product-name">Optimización de rutas con IA</span></div>
+        <div class="product"><span class="product-n">05</span><span class="product-name">Monitoreo de carga</span></div>
+        <div class="product"><span class="product-n">06</span><span class="product-name">LogiTrack</span></div>
+        <div class="product"><span class="product-n">07</span><span class="product-name">Sistema de mantenimiento vehicular</span></div>
+        <div class="product"><span class="product-n">08</span><span class="product-name">Control de entregas</span></div>
+        <div class="product"><span class="product-n">09</span><span class="product-name">Gestor de almacenes</span></div>
+        <div class="product"><span class="product-n">10</span><span class="product-name">Monitor de temperatura logística</span></div>
+        <div class="product"><span class="product-n">11</span><span class="product-name">Planificador de entregas con IA</span></div>
+        <div class="product"><span class="product-n">12</span><span class="product-name">Control de operadores</span></div>
+        <div class="product"><span class="product-n">13</span><span class="product-name">Sistema de gestión de paquetes</span></div>
+        <div class="product"><span class="product-n">14</span><span class="product-name">Logistics Dashboard</span></div>
+        <div class="product"><span class="product-n">15</span><span class="product-name">Predicción de demanda logística</span></div>
+      </div>
+    </div>
+
+    <div class="cat-panel" id="cat-4" role="tabpanel" aria-labelledby="tab-4">
+      <p class="cat-meta">15 soluciones · Administración y negocios</p>
+      <div class="products-grid">
+        <div class="product"><span class="product-n">01</span><span class="product-name">Punto de venta inteligente</span></div>
+        <div class="product"><span class="product-n">02</span><span class="product-name">Sistema de inventarios</span></div>
+        <div class="product"><span class="product-n">03</span><span class="product-name">Asistente empresarial con IA</span></div>
+        <div class="product"><span class="product-n">04</span><span class="product-name">Automatización administrativa</span></div>
+        <div class="product"><span class="product-n">05</span><span class="product-name">Analizador de ventas con IA</span></div>
+        <div class="product"><span class="product-n">06</span><span class="product-name">BusinessManager</span></div>
+        <div class="product"><span class="product-n">07</span><span class="product-name">CRM inteligente</span></div>
+        <div class="product"><span class="product-n">08</span><span class="product-name">Control de gastos empresariales</span></div>
+        <div class="product"><span class="product-n">09</span><span class="product-name">Sistema de facturación inteligente</span></div>
+        <div class="product"><span class="product-n">10</span><span class="product-name">Dashboard empresarial</span></div>
+        <div class="product"><span class="product-n">11</span><span class="product-name">Gestor de recursos humanos</span></div>
+        <div class="product"><span class="product-n">12</span><span class="product-name">Predicción financiera con IA</span></div>
+        <div class="product"><span class="product-n">13</span><span class="product-name">Sistema de cotizaciones</span></div>
+        <div class="product"><span class="product-n">14</span><span class="product-name">Control de proveedores</span></div>
+        <div class="product"><span class="product-n">15</span><span class="product-name">Business Analytics AI</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function() {
+  document.querySelectorAll('.cat-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.cat-tab').forEach(function(t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.cat-panel').forEach(function(p) {
+        p.classList.remove('active');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      var panel = document.getElementById(tab.getAttribute('aria-controls'));
+      if (panel) panel.classList.add('active');
+    });
+  });
+})();
+</script>
+
+<!-- CTA -->
+<section class="cta" id="contacto">
+  <div class="inner">
+    <div class="cta-inner">
+      <h2 class="cta-heading">¿Listo para construir su solución?</h2>
+      <div class="cta-right">
+        <p class="cta-sub">Cuéntenos sobre sus procesos y requerimientos. Le proponemos una solución construida desde cero para su organización.</p>
+        <a href="#contacto" class="cta-btn">Iniciar un proyecto</a>
+        <p class="cta-email">contacto@sedimex.mx</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="inner">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-logo">SEDIME<span class="logo-x">X</span></p>
+        <p class="footer-sub">Servicios Digitales Mexicanos</p>
+      </div>
+      <p class="footer-copy">© 2026 SEDIMEX. Todos los derechos reservados.<br>Universidad Tecnológica de Tamaulipas Norte</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
